@@ -20,3 +20,6 @@ npm install react-router-dom
 
 //vite-plugin-svgr
 npm install vite-plugin-svgr
+
+//firebase
+npm install firebase
