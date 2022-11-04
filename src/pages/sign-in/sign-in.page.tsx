@@ -1,13 +1,14 @@
 import React from 'react';
-import { signInWithGooglePopup } from '../../utils/firebase.utils';
+import { signInWithGooglePopup, createUserDocumentFromAuth } from '../../utils/firebase.utils';
 
 type Props = {};
 
 const SignInPage = (props: Props) => {
   const logGoogleUser = async () => {
-    const user = await signInWithGooglePopup();
-    if (user) {
-      console.log(user);
+    const response = await signInWithGooglePopup();
+    if (response) {
+      console.log(response);
+      const userDocument = await createUserDocumentFromAuth(response.user);
     } else {
       console.log('No user');
     }
