@@ -2,6 +2,9 @@
 npm create vite@latest
 
 //git
+git config --global user.email "ado.coneo@gmail.com"
+git config --global user.name "Adolfredo Coneo"
+
 git init
 git add .
 git commit -m "first commit"
@@ -11,3 +14,9 @@ git push -u origin main
 
 //sass
 npm install -D sass
+
+//react-router-dom
+npm install react-router-dom
+
+//vite-plugin-svgr
+npm install vite-plugin-svgr
