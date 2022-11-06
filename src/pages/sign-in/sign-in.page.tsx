@@ -7,6 +7,7 @@ import {
   signInWithGoogleRedirect,
   createUserDocumentFromAuth,
 } from '../../utils/firebase.utils';
+import SignUpForm from '../sign-up/sign-up.page';
 
 type Props = {};
 
@@ -40,6 +41,7 @@ const SignInPage = (props: Props) => {
       <button onClick={signInWithGoogleRedirect}>
         Sign in with Google Redirect
       </button>
+      <SignUpForm />
     </div>
   );
 };
