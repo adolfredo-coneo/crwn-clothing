@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
+import { UserContext } from '../../contexts/user.context';
+import { signOutAsync } from '../../utils/firebase.utils';
 import './navigation-bar.styles.scss';
 
 type Props = {};
 
 const NavigationBar = (props: Props) => {
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+
+  const logoutHandler = async () => {
+    await signOutAsync();
+    setCurrentUser(null);
+  };
+
   return (
     <>
       <div className="navigation">
@@ -17,9 +26,15 @@ const NavigationBar = (props: Props) => {
           <Link className="nav-link" to="shop">
             Shop
           </Link>
-          <Link className="nav-link" to="auth">
-            Sign In
-          </Link>
+          {currentUser ? (
+            <a className="nav-link" onClick={logoutHandler}>
+              Log out
+            </a>
+          ) : (
+            <Link className="nav-link" to="auth">
+              Sign In
+            </Link>
+          )}
         </div>
       </div>
       <Outlet />

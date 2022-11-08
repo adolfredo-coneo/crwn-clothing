@@ -8,6 +8,7 @@ import {
   User,
   createUserWithEmailAndPassword,
   UserCredential,
+  signOut,
 } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
@@ -88,3 +89,5 @@ export const createUser = async (response: UserCredential | null) => {
     console.log('No user');
   }
 };
+
+export const signOutAsync = async () => await signOut(auth);
