@@ -9,6 +9,7 @@ import {
   createUserWithEmailAndPassword,
   UserCredential,
   signOut,
+  onAuthStateChanged,
 } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
@@ -81,13 +82,8 @@ export const createUserWithEmailAndPasswordAsync = async (
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const createUser = async (response: UserCredential | null) => {
-  if (response) {
-    console.log(response);
-    await createUserDocumentFromAuth(response.user);
-  } else {
-    console.log('No user');
-  }
-};
-
 export const signOutAsync = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (
+  callback: (user: User | null) => void
+) => onAuthStateChanged(auth, callback);

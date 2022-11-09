@@ -1,5 +1,5 @@
 import { FirebaseError } from 'firebase/app';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '../button/button.component';
 
 import FormInput from '../form-input/form-input.component';
@@ -8,7 +8,6 @@ import {
   createUserWithEmailAndPasswordAsync,
 } from '../../utils/firebase.utils';
 import './sign-up.form.styles.scss';
-import { UserContext } from '../../contexts/user.context';
 
 const defaultFormValues = {
   displayName: '',
@@ -20,7 +19,6 @@ const defaultFormValues = {
 const SignUpForm = () => {
   const [formValues, setFormValues] = useState(defaultFormValues);
   const { displayName, email, password, confirmPassword } = formValues;
-  const { setCurrentUser } = useContext(UserContext);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,7 +33,6 @@ const SignUpForm = () => {
       );
       if (response) {
         console.log(response);
-        setCurrentUser(response.user);
         await createUserDocumentFromAuth(response.user, { displayName });
         setFormValues(defaultFormValues);
       } else {

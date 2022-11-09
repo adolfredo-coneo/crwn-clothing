@@ -9,11 +9,10 @@ import './navigation-bar.styles.scss';
 type Props = {};
 
 const NavigationBar = (props: Props) => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
 
   const logoutHandler = async () => {
     await signOutAsync();
-    setCurrentUser(null);
   };
 
   return (

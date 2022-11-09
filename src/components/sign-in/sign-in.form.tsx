@@ -1,17 +1,15 @@
 import { FirebaseError } from 'firebase/app';
 import { getRedirectResult } from 'firebase/auth';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   auth,
-  createUser,
   signInWithEmailAndPasswordAsync,
   signInWithGooglePopup,
   signInWithGoogleRedirect,
 } from '../../utils/firebase.utils';
 import Button from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
-import { UserContext } from '../../contexts/user.context';
 import './sign-in.form.styles.scss';
 
 const defaultFormValues = {
@@ -22,13 +20,10 @@ const defaultFormValues = {
 const SignInForm = () => {
   const [formValues, setFormValues] = useState(defaultFormValues);
   const { email, password } = formValues;
-  const { setCurrentUser } = useContext(UserContext);
 
   useEffect(() => {
     const getRedirect = async () => {
-      const response = await getRedirectResult(auth);
-      await createUser(response);
-      setCurrentUser(response?.user);
+      await getRedirectResult(auth);
     };
     getRedirect();
   }, []);
@@ -44,7 +39,6 @@ const SignInForm = () => {
       try {
         const response = await signInWithEmailAndPasswordAsync(email, password);
         setFormValues(defaultFormValues);
-        setCurrentUser(response.user);
         console.log(response);
       } catch (error) {
         switch (error instanceof FirebaseError && error.code) {
@@ -64,9 +58,7 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    const response = await signInWithGooglePopup();
-    await createUser(response);
-    setCurrentUser(response.user);
+    await signInWithGooglePopup();
   };
 
   return (
