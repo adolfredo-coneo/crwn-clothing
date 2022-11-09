@@ -4,6 +4,8 @@ import { Link, Outlet } from 'react-router-dom';
 import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
 import { UserContext } from '../../contexts/user.context';
 import { signOutAsync } from '../../utils/firebase.utils';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+import CartIcon from '../cart-icon/cart-icon.component';
 import './navigation-bar.styles.scss';
 
 type Props = {};
@@ -34,7 +36,9 @@ const NavigationBar = (props: Props) => {
               Sign In
             </Link>
           )}
+          <CartIcon />
         </div>
+        <CartDropdown />
       </div>
       <Outlet />
     </>

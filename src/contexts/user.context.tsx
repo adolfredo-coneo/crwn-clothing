@@ -13,7 +13,7 @@ type UserContextType = {
 
 const defaultContext: UserContextType = {
   currentUser: null,
-  setCurrentUser: (user: any) => {},
+  setCurrentUser: (user: User | null) => {},
 };
 
 export const UserContext = createContext(defaultContext);
