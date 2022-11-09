@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 
 import SHOP_DATA from '../shop-data.json';
 
-type Product = {
+export type Product = {
   id: number;
   name: string;
   imageUrl: string;
