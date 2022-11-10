@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { Product } from './products.context';
 
 export type ShoppingCartProduct = Product & {
@@ -8,20 +8,30 @@ export type ShoppingCartProduct = Product & {
 type shoppingCartContextType = {
   isCartOpen: boolean;
   cartItems: ShoppingCartProduct[];
+  cartTotal: number;
   toggleCartVisible: () => void;
   addItem: (item: Product) => void;
-  removeItem: (item: Product) => void;
+  removeItem: (item: Product, removeAll?: boolean) => void;
 };
 
 const defaultShoppingCartContext: shoppingCartContextType = {
   isCartOpen: false,
   cartItems: [],
+  cartTotal: 0,
   toggleCartVisible: () => {},
   addItem: (item: Product) => {},
-  removeItem: (item: Product) => {},
+  removeItem: (item: Product, removeAll?: boolean) => {},
 };
 
 export const ShoppingCartContext = createContext(defaultShoppingCartContext);
+
+const calculateCartTotal = (cartItems: ShoppingCartProduct[]) => {
+  return cartItems.reduce(
+    (accumulatedQuantity, cartItem) =>
+      accumulatedQuantity + cartItem.quantity * cartItem.price,
+    0
+  );
+};
 
 interface ShoppingCartProviderProps {
   children: React.ReactNode;
@@ -32,6 +42,11 @@ export const ShoppingCartProvider = ({
 }: ShoppingCartProviderProps) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setProducts] = useState<ShoppingCartProduct[]>([]);
+  const [cartTotal, setCartTotal] = useState(0);
+
+  useEffect(() => {
+    setCartTotal(calculateCartTotal(cartItems));
+  }, [cartItems]);
 
   const addItem = (item: Product) => {
     const existingItem = cartItems.find((product) => product.id === item.id);
@@ -48,9 +63,9 @@ export const ShoppingCartProvider = ({
     }
   };
 
-  const removeItem = (item: Product) => {
+  const removeItem = (item: Product, removeAll = false) => {
     const existingItem = cartItems.find((product) => product.id === item.id);
-    if (existingItem && existingItem.quantity === 1) {
+    if (existingItem && (existingItem.quantity === 1 || removeAll)) {
       setProducts((prevProds) =>
         prevProds.filter((product) => product.id !== item.id)
       );
@@ -70,6 +85,7 @@ export const ShoppingCartProvider = ({
       value={{
         isCartOpen,
         cartItems,
+        cartTotal,
         toggleCartVisible: () => setIsCartOpen((prev) => !prev),
         addItem,
         removeItem,
