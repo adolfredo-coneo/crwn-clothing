@@ -1,26 +1,15 @@
-import { lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-import Spinner from '../../components/spinner/spinner.component';
-const Products = lazy(() =>
-  delayForDemo(import('../../components/products/products.component'))
-);
+import CategoriesPreviewPage from '../categories-preview/categories-preview.page';
+import CategoryPage from '../category/category.page';
 
 const ShopPage = () => {
   return (
-    <div>
-      <h1>Shop</h1>
-      <Suspense fallback={<Spinner />}>
-        <Products />
-      </Suspense>
-    </div>
+    <Routes>
+      <Route index element={<CategoriesPreviewPage />} />
+      <Route path=":category" element={<CategoryPage />} />
+    </Routes>
   );
 };
-
-// Add a fixed delay so you can see the loading state
-function delayForDemo(promise: any) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 2000);
-  }).then(() => promise);
-}
 
 export default ShopPage;

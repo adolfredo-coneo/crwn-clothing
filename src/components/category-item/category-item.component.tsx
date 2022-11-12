@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import './category-item.styles.scss';
 
 type Props = {
@@ -6,9 +8,14 @@ type Props = {
 
 const CategoryItemComponent: React.FC<Props> = ({ category }) => {
   const { title, imageUrl } = category;
-  
+  const navigate = useNavigate();
+
+  const goToCategory = () => {
+    navigate(`/shop/${title}`);
+  };
+
   return (
-    <div className="category-container">
+    <div className="category-container" onClick={goToCategory}>
       <div
         className="background-image"
         style={{

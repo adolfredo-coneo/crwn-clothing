@@ -1,21 +1,26 @@
-import React, { useContext } from 'react';
+import React, { Fragment, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
-import { ProductsContext } from '../../contexts/products.context';
-import ProductCard from '../product-card/product-card.component';
-import './products.styles.scss';
+import { CategoriesContext } from '../../contexts/categories.context';
+import ProductsList from './products-list.component';
 
 interface Props {}
 
 const Products: React.FC<Props> = ({}) => {
-  const { products } = useContext(ProductsContext);
+  const { categoriesMap } = useContext(CategoriesContext);
 
   return (
-    <div className="products-container">
-      {products &&
-        products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+    <>
+      {categoriesMap &&
+        Object.keys(categoriesMap).map((category) => (
+          <Fragment key={category}>
+            <Link to={`/shop/${category}`}>
+              <h2 className="category-title">{category.toUpperCase()}</h2>
+            </Link>
+            <ProductsList products={categoriesMap[category]} show={4} />
+          </Fragment>
         ))}
-    </div>
+    </>
   );
 };
 
