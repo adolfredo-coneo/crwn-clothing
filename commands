@@ -23,3 +23,7 @@ npm install vite-plugin-svgr
 
 //firebase
 npm install firebase
+
+//styled-components
+npm install styled-components
+npm i --save-dev @types/styled-components

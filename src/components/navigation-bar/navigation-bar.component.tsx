@@ -7,7 +7,12 @@ import { UserContext } from '../../contexts/user.context';
 import { signOutAsync } from '../../utils/firebase.utils';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import CartIcon from '../cart-icon/cart-icon.component';
-import './navigation-bar.styles.scss';
+import {
+  NavigationBarContainer,
+  LogoContainer,
+  NavLink,
+  NavLinks,
+} from './navigation-bar.styles';
 
 type Props = {};
 
@@ -21,27 +26,23 @@ const NavigationBar = (props: Props) => {
 
   return (
     <>
-      <div className="navigation">
-        <Link className="logo-container" to="/">
+      <NavigationBarContainer>
+        <LogoContainer to="/">
           <CrwnLogo className="logo" />
-        </Link>
-        <div className="nav-links-container">
-          <Link className="nav-link" to="shop">
-            Shop
-          </Link>
+        </LogoContainer>
+        <NavLinks>
+          <NavLink to="shop">Shop</NavLink>
           {currentUser ? (
-            <a className="nav-link" onClick={logoutHandler}>
+            <NavLink as="span" className="nav-link" onClick={logoutHandler}>
               Log out
-            </a>
+            </NavLink>
           ) : (
-            <Link className="nav-link" to="auth">
-              Sign In
-            </Link>
+            <NavLink to="auth">Sign In</NavLink>
           )}
           <CartIcon />
-        </div>
+        </NavLinks>
         {isCartOpen && <CartDropdown />}
-      </div>
+      </NavigationBarContainer>
       <Outlet />
     </>
   );
