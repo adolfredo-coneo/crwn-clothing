@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './form-input.styles.scss';
+import { FormInputLabel, Input, Group } from './form-input.styles';
 
 interface Props {
   label?: string;
@@ -9,21 +9,21 @@ interface Props {
 
 const FormInput: React.FC<Props> = ({ label, inputOptions }) => {
   return (
-    <div className="group">
-      <input className="form-input" {...inputOptions} />
+    <Group>
+      <Input {...inputOptions} />
       {label && (
-        <label
-          className={`${
+        <FormInputLabel
+          shrink={
             inputOptions.value && inputOptions.value.toString().length
-              ? 'shrink'
-              : ''
-          } form-input-label`}
+              ? true
+              : false
+          }
           htmlFor="displayName"
         >
           {label}
-        </label>
+        </FormInputLabel>
       )}
-    </div>
+    </Group>
   );
 };
 

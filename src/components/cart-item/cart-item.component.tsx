@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ShoppingCartProduct } from '../../contexts/shopping-cart.context';
-import './cart-item.styles.scss';
+import { CartItemContainer, ItemDetails } from './cart-item.styles';
 
 interface Props {
   item: ShoppingCartProduct;
@@ -9,15 +9,15 @@ interface Props {
 
 const CartItem: React.FC<Props> = ({ item }) => {
   return (
-    <div className="cart-item-container">
+    <CartItemContainer>
       <img src={item.imageUrl} alt={item.name} />
-      <div className="item-details">
+      <ItemDetails>
         <span className="name">{item.name}</span>
         <span className="price">
           {item.quantity} x ${item.price}
         </span>
-      </div>
-    </div>
+      </ItemDetails>
+    </CartItemContainer>
   );
 };
 

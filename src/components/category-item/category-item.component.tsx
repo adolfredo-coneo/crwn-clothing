@@ -1,6 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 
-import './category-item.styles.scss';
+import {
+  BackgroundImage,
+  CategoryContainer,
+  Body,
+} from './category-item.styles';
 
 type Props = {
   category: any;
@@ -15,18 +19,13 @@ const CategoryItemComponent: React.FC<Props> = ({ category }) => {
   };
 
   return (
-    <div className="category-container" onClick={goToCategory}>
-      <div
-        className="background-image"
-        style={{
-          backgroundImage: `url(${imageUrl})`,
-        }}
-      />
-      <div className="category-body-container">
+    <CategoryContainer onClick={goToCategory}>
+      <BackgroundImage imageUrl={imageUrl} />
+      <Body>
         <h2>{title}</h2>
         <p>Shop Now</p>
-      </div>
-    </div>
+      </Body>
+    </CategoryContainer>
   );
 };
 

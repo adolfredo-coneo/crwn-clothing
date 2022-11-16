@@ -32,7 +32,6 @@ export const CategoriesProvider = ({ children }: CategoriesProviderProps) => {
   useEffect(() => {
     const fetchShopData = async () => {
       const shopData = await getCategoriesAndDocuments();
-      console.log(shopData);
       setCategoriesMap(shopData);
     };
     fetchShopData();
