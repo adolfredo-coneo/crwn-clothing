@@ -1,5 +1,5 @@
 import { User } from 'firebase/auth';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState, useReducer } from 'react';
 
 import {
   createUserDocumentFromAuth,
@@ -22,8 +22,35 @@ interface UserProviderProps {
   children: React.ReactNode;
 }
 
+export const USER_ACTIONS_TYPE = {
+  SET_CURRENT_USER: 'SET_CURRENT_USER',
+};
+
+const userReducer = (
+  state: { currentUser: User | null },
+  action: { type: string; payload: User | null }
+) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case USER_ACTIONS_TYPE.SET_CURRENT_USER:
+      return { ...state, currentUser: payload };
+    default:
+      throw new Error(`Invalid action type: ${type} in userReducer`);
+  }
+};
+
+const INITIAL_STATE = {
+  currentUser: null,
+};
+
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [state, dispatch] = useReducer(userReducer, INITIAL_STATE);
+  const { currentUser } = state;
+
+  const setCurrentUser = (user: User | null) => {
+    dispatch({ type: USER_ACTIONS_TYPE.SET_CURRENT_USER, payload: user });
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener(async (user) => {
